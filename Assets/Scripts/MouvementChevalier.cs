@@ -41,7 +41,6 @@ public class MouvementChevalier : MonoBehaviour
     private void FixedUpdate()
     {
         corps.linearVelocity = commandesActives ? direction * vitesse : Vector2.zero;
-        LimiterPosition();
     }
 
     private void LimiterPosition()
