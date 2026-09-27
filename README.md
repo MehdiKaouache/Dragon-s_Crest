@@ -34,6 +34,9 @@ Collecter les 3 Blasons pour activer la porte de sortie, puis l'atteindre pour g
 - Sprite des Blasons : "Cherries" du pack "Pixel Adventure 1" (icône temporaire/placeholder,
   faute d'un sprite de cristal disponible dans les assets à disposition)
 - Audio : généré procéduralement en code (aucun fichier audio externe), voir AudioJeu.cs
+- Fond d'arrière-plan (grotte aux cristaux) : "Crystal Cave Background" par fellfeline
+  (https://www.deviantart.com/fellfeline/art/Crystal-Cave-Background-881500860),
+  licence CC BY-NC-ND 3.0
 
 ## Aide reçue
 - Assistance de Claude (Anthropic) pour la structure du jeu, la rédaction de ce README et le débogage de certaines parties du jeu
