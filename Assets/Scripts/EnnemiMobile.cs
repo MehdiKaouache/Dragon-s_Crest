@@ -143,8 +143,12 @@ public class EnnemiMobile : MonoBehaviour
 
     private void DeplacementPatrouille()
     {
-        // Sans destination, aucun nouveau déplacement n'est calculé.
-        if (ciblePatrouille == null) return;
+        if (ciblePatrouille == null)
+        {
+            // Aucun point de patrouille : l'ennemi s'arrête au lieu de glisser
+            corps.linearVelocity = Vector2.zero;
+            return;
+        }
 
         // Calcule la direction vers le point actuellement visé.
         Vector2 direction =
