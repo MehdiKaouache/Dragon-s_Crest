@@ -10,6 +10,10 @@ public class AudioJeu : MonoBehaviour
     [SerializeField, Range(0f, 1f)] private float volumeEffets = 0.75f;
     [SerializeField, Range(0f, 1f)] private float volumeAmbiance = 0.16f;
 
+    [Header("Ambiance")]
+    [SerializeField, Min(20f)] private float frequenceAmbiance = 55f;
+    [SerializeField, Range(0.25f, 2f)] private float vitessePulsation = 0.5f;
+
     private AudioSource source;
     private AudioSource ambiance;
     private AudioClip lancement;
@@ -38,7 +42,7 @@ public class AudioJeu : MonoBehaviour
         objectif = CreerSon("Objectif", new[] { 440f, 660f, 880f }, 0.11f);
         victoire = CreerSon("Victoire", new[] { 523f, 659f, 784f }, 0.15f);
         defaite = CreerSon("Defaite", new[] { 330f, 247f, 196f }, 0.18f);
-        ambiance.clip = CreerAmbiance();
+        ambiance.clip = CreerAmbiance(frequenceAmbiance, vitessePulsation);
     }
 
     private void Start()
@@ -76,17 +80,23 @@ public class AudioJeu : MonoBehaviour
         return clip;
     }
 
-    private static AudioClip CreerAmbiance()
+    private static AudioClip CreerAmbiance(float frequence, float vitessePulsation)
     {
         const int taux = 44100;
         const int duree = 4;
+
+        // Le clip dure 4 s et tourne en boucle : la fréquence doit être un entier
+        // et la pulsation un multiple de 0,25 pour que la boucle soit sans clic.
+        float f = Mathf.Round(frequence);
+        float v = Mathf.Round(vitessePulsation * 4f) / 4f;
+
         float[] donnees = new float[taux * duree];
         for (int i = 0; i < donnees.Length; i++)
         {
             float t = i / (float)taux;
-            float pulsation = 0.68f + 0.32f * Mathf.Sin(2f * Mathf.PI * 0.5f * t);
-            donnees[i] = (Mathf.Sin(2f * Mathf.PI * 55f * t) * 0.11f +
-                          Mathf.Sin(2f * Mathf.PI * 82.5f * t) * 0.05f) * pulsation;
+            float pulsation = 0.68f + 0.32f * Mathf.Sin(2f * Mathf.PI * v * t);
+            donnees[i] = (Mathf.Sin(2f * Mathf.PI * f * t) * 0.11f +
+                          Mathf.Sin(2f * Mathf.PI * f * 1.5f * t) * 0.05f) * pulsation;
         }
         AudioClip clip = AudioClip.Create("AmbianceDonjon", donnees.Length, 1, taux, false);
         clip.SetData(donnees, 0);
